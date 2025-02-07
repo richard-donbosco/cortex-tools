@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: benchtool-deployment
+  namespace: default
+  labels:
+    app: benchtool
+spec:
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: benchtool
+  template:
+    metadata:
+      labels:
+        app: benchtool
+    spec:
+      containers:
+        - name: benchtool
+          image: your-docker-repo/benchtool:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: benchtool-cmdline
+          args:
+            - "-bench.id=$(BENCH_ID)"
+            - "-bench.instance-name=$(BENCH_INSTANCE_NAME)"
+            - "-bench.query.enabled=$(BENCH_QUERY_ENABLED)"
+            - "-bench.query.endpoint=$(BENCH_QUERY_ENDPOINT)"
+            - "-bench.write.enabled=$(BENCH_WRITE_ENABLED)"
+            - "-bench.write.endpoint=$(BENCH_WRITE_ENDPOINT)"
+            - "-bench.workload-file-path=/etc/benchtool/workflow.yaml"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 2
+          volumeMounts:
+            - name: logs
+              mountPath: /var/log/benchtool
+            - name: workflow-config
+              mountPath: /etc/benchtool
+              subPath: workflow.yaml
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 2000
+            fsGroup: 2000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: logs
+          emptyDir:
+            medium: Memory
+        - name: workflow-config
+          configMap:
+            name: benchtool-workflow
+            items:
+              - key: workflow.yaml
+                path: workflow.yaml
+      imagePullSecrets:
+        - name: regcred
+      nodeSelector:
+        disktype: ssd
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - benchtool
+              topologyKey: "kubernetes.io/hostname"
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/e2e-az-name
+                    operator: In
+                    values:
+                      - us-west-1a
+                      - us-west-1b
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "benchtool"
+          effect: "NoSchedule"
+      terminationGracePeriodSeconds: 30

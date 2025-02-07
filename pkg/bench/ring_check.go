@@ -27,7 +27,7 @@ type RingCheckConfig struct {
 }
 
 func (cfg *RingCheckConfig) RegisterFlagsWithPrefix(prefix string, f *flag.FlagSet) {
-	f.BoolVar(&cfg.Enabled, prefix+"enabled", true, "enable ring check module")
+	f.BoolVar(&cfg.Enabled, prefix+"enabled", false, "enable ring check module")
 	cfg.MemberlistKV.RegisterFlagsWithPrefix(f, prefix)
 	cfg.RingConfig.RegisterFlagsWithPrefix(prefix, f)
 

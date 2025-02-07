@@ -3,6 +3,7 @@ package bench
 import (
 	"context"
 	"flag"
+	"fmt"
 	"os"
 
 	"github.com/go-kit/log"
@@ -53,6 +54,8 @@ func NewBenchRunner(cfg Config, logger log.Logger, reg prometheus.Registerer) (*
 		return nil, errors.Wrap(err, "unable to read workload YAML file from the disk")
 	}
 
+	fmt.Printf(string(content))
+
 	workloadDesc := WorkloadDesc{}
 	err = yaml.Unmarshal(content, &workloadDesc)
 	if err != nil {
@@ -78,6 +81,7 @@ func NewBenchRunner(cfg Config, logger log.Logger, reg prometheus.Registerer) (*
 		if err != nil {
 			return nil, errors.Wrap(err, "unable to create ring checker")
 		}
+		fmt.Println("Ring check is enabled")
 	}
 
 	if cfg.Query.Enabled {

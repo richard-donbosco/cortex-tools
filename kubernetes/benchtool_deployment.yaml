@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: benchtool
-          image: your-docker-repo/benchtool:latest
+          image: docker.apple.com/csperf/cortex/benchtool:1.0
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -81,7 +81,7 @@ spec:
               - key: workflow.yaml
                 path: workflow.yaml
       imagePullSecrets:
-        - name: regcred
+        - name: docker-apple-com
       nodeSelector:
         disktype: ssd
       affinity:

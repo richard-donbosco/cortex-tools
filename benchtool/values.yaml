@@ -1,0 +1,199 @@
+deploy: &deploy
+  release: "13"
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 10
+      maxUnavailable: 5
+  resources:
+    requests:
+      memory: "4Gi"
+      cpu: "4"
+    limits:
+      memory: "8Gi"
+      cpu: "6"
+
+write_options: &write_options
+  batch_size: 1000
+  interval: 15s
+  timeout: 100s
+
+
+benchtool:
+  - name: 1
+    deployment:
+      <<: *deploy
+    cmdline:
+    config:
+      write_options:
+        <<: *write_options
+  # - name: 2
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 3
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 4
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 5
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 6
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 7
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 8
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 9
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 10
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 11
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 12
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 13
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 14
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 15
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 16
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 17
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 18
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 19
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 20
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 21
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 22
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 23
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 24
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  # - name: 25
+  #   deployment:
+  #     <<: *deploy
+  #   cmdline:
+  #   config:
+  #     write_options:
+  #       <<: *write_options
+  #

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: benchtool 
+description: A Helm chart for deploying an cortex benchtool 
+type: application
+version: 1.0.0
+appVersion: "0.0.1"
+maintainers:
+  - name: Richard Donbosco 
+    email: rdonbosco@apple.com
+keywords:
+  - cortex 
+  - loadtest 
+  - kubernetes
+annotations:
+  category: "cortex"
+

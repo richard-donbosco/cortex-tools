@@ -28,6 +28,8 @@ func main() {
 	flagext.RegisterFlags(&benchConfig, &LogLevelConfig, &LogFormatConfig)
 	flag.Parse()
 
+	LogLevelConfig.Set("debug")
+
 	logger, err := logutil.NewPrometheusLogger(LogLevelConfig, LogFormatConfig)
 	if err != nil {
 		level.Error(logger).Log("msg", "error initializing logger", "err", err)
@@ -45,13 +47,13 @@ func main() {
 
 	go func() {
 		http.Handle("/metrics", promhttp.Handler())
-		panic(http.ListenAndServe(":80", nil))
+		panic(http.ListenAndServe(":9090", nil))
 	}()
 
 	level.Info(logger).Log("msg", "starting benchmarker")
 	err = benchmarkRunner.Run(ctx)
 	if err != nil {
-		level.Error(logger).Log("msg", "benchmarker failed", "err", err)
+		level.Error(logger).Log("msg", "benchmarker failed", "debug", err)
 		os.Exit(1)
 	}
 }

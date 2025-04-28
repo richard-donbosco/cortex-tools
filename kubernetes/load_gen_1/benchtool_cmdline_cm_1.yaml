@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: benchtool-cmdline-1
+  labels:
+    app: benchtool
+data:
+  BENCH_ID: "1"
+  BENCH_INSTANCE_NAME: "user1"
+  BENCH_QUERY_ENABLED: "false"
+  BENCH_QUERY_ENDPOINT: http://query-endpoint
+  BENCH_WRITE_ENABLED: "true"
+  BENCH_WRITE_ENDPOINT: "cortex-nginx.cortex.svc.cluster.local"

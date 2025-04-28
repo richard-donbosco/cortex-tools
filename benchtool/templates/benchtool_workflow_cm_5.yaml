@@ -1,0 +1,147 @@
+{{- range .Values.benchtool }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-workflow-{{ .name }}
+  labels:
+    app: benchtool
+data:
+  workflow.yaml: |
+    queries:
+      - expr_template: sum(<<.Name>>{<<.Matchers>>})
+        interval: 1m
+        num_queries: 50
+        time_range: 2h
+        series_type: gauge-random
+      {{/* - expr_template: sum(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   series_type: gauge-zero */}}
+      {{/*   time_range: 2h */}}
+      {{/* - expr_template: sum(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   series_type: counter-one */}}
+      {{/*   time_range: 2h */}}
+      {{/* - expr_template: sum(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   series_type: counter-random */}}
+      {{/*   time_range: 2h */}}
+      {{/* - expr_template: avg(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   time_range: 2h */}}
+      {{/*   series_type: gauge-random */}}
+      {{/* - expr_template: avg(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   series_type: gauge-zero */}}
+      {{/*   time_range: 2h */}}
+      {{/* - expr_template: avg(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   series_type: counter-one */}}
+      {{/*   time_range: 2h */}}
+      {{/* - expr_template: avg(<<.Name>>{<<.Matchers>>}) */}}
+      {{/*   interval: 1m */}}
+      {{/*   num_queries: 50 */}}
+      {{/*   series_type: counter-random */}}
+      {{/*   time_range: 2h */}}
+    replicas: 1
+    series:
+      - labels:
+          - name: label_01
+            unique_values: 100
+            value_prefix: label_value_01
+          - name: label_02
+            unique_values: 100
+            value_prefix: label_value_02
+        name: metric_counter_one_01
+        static_labels:
+            static: "true"
+        type: counter-one
+      - labels:
+          - name: label_01
+            unique_values: 100
+            value_prefix: label_value_01
+          - name: label_02
+            unique_values: 100
+            value_prefix: label_value_02
+        name: metric_counter_random_01
+        static_labels:
+            static: "true"
+        type: counter-random
+      - labels:
+          - name: label_01
+            unique_values: 100
+            value_prefix: label_value_01
+          - name: label_02
+            unique_values: 100
+            value_prefix: label_value_02
+        name: metric_gauge_random_01
+        static_labels:
+            static: "true"
+        type: gauge-random
+      - labels:
+          - name: label_01
+            unique_values: 100
+            value_prefix: label_value_01
+          - name: label_02
+            unique_values: 100
+            value_prefix: label_value_02
+        name: metric_gauge_zero_01
+        static_labels:
+            static: "true"
+        type: gauge-zero
+      - labels:
+          - name: label_011
+            unique_values: 100
+            value_prefix: label_value_011
+          - name: label_021
+            unique_values: 100
+            value_prefix: label_value_021
+        name: metric_counter_one_011
+        static_labels:
+            static: "true"
+        type: counter-one
+      - labels:
+          - name: label_011
+            unique_values: 100
+            value_prefix: label_value_011
+          - name: label_021
+            unique_values: 100
+            value_prefix: label_value_021
+        name: metric_counter_random_011
+        static_labels:
+            static: "true"
+        type: counter-random
+      - labels:
+          - name: label_011
+            unique_values: 100
+            value_prefix: label_value_011
+          - name: label_021
+            unique_values: 100
+            value_prefix: label_value_021
+        name: metric_gauge_random_011
+        static_labels:
+            static: "true"
+        type: gauge-random
+      - labels:
+          - name: label_011
+            unique_values: 100
+            value_prefix: label_value_011
+          - name: label_021
+            unique_values: 100
+            value_prefix: label_value_021
+        name: metric_gauge_zero_011
+        static_labels:
+            static: "true"
+        type: gauge-zero
+
+    write_options:
+        batch_size: {{ .config.write_options.batch_size | default "1000" }}
+        interval: {{ .config.write_options.interval | default "15s" }}
+        timeout: {{ .config.write_options.timeout | default "100s" }}
+{{- end -}}

@@ -1,0 +1,16 @@
+{{- range .Values.benchtool }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-cmdline-{{ .name }}
+  labels:
+    app: benchtool
+data:
+  BENCH_ID: "{{ .name }}"
+  BENCH_INSTANCE_NAME: "user{{ .name }}"
+  BENCH_QUERY_ENABLED: "true"
+  BENCH_QUERY_ENDPOINT: "cortex-query-tee.cortex-query-tee.svc.cluster.local"
+  BENCH_WRITE_ENABLED: "true"
+  BENCH_WRITE_ENDPOINT: "cortex-nginx.cortex.svc.cluster.local"
+{{- end }}
